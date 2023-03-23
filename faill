@@ -1,0 +1,43 @@
+1. check if request is fail and try to send request again 
+        import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+Future<List> loadData() async {
+  int retries = 0;
+  const int maxRetries = 3;
+  var data;
+  while (retries < maxRetries) {
+    try {
+      http.Response response = await http.post("https://www.example.com",
+          body: <String, String>{"username": "test"});
+      data = json.decode(response.body);
+      if (data.containsKey("success")) {
+        break;
+      }
+    } catch (e) {
+      retries++;
+      await Future.delayed(Duration(milliseconds: 2000));
+    }
+  }
+  if (retries == maxRetries) {
+    throw Exception("Failed to load data after $retries retries");
+  }
+  return data;
+}
+
+2. compare beetween steam and ref.watch(), InternetConnectionObserver 
+
+3.  Future<void> _init() async {
+    _connectivity.onConnectivityChanged.listen((event) async {
+      if (event == ConnectivityResult.mobile ||
+          event == ConnectivityResult.wifi) {
+        final isConnected = await _internetConnectionChecker.hasConnection;
+        hasConnectionStream.sink.add(isConnected);
+      } else {
+        final isConnected = await _internetConnectionChecker.hasConnection;
+        hasConnectionStream.sink.add(isConnected);
+      }
+    });
+  }
+
+  4.   ref.read(loginControllerProvider.notifier).getAccessToken(); main widget
