@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../common/provider/utility_provider/utilityProvider.dart';
 import '../../domain/models/product.dart';
 
 part 'product_state.freezed.dart';
@@ -16,6 +17,7 @@ class ProductState with _$ProductState {
     @Default([]) List<String> categories,
     @Default([]) List<String> brands,
     @Default(null) CategoryOnScreenModel? categoryOnScreen,
+    @Default([]) List<ProductInformation> productInformation,
     String? errorMsg,
   }) = _ProductState;
 }

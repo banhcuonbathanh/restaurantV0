@@ -2,36 +2,31 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../features/product/domain/models/product.dart';
 import '../../../features/product/presentation/controller/product_controller.dart';
 import '../../styles/dimens.dart';
 import 'app_config_layout.dart';
 
 abstract class AbstractUtilityProvider {
-  static AutoDisposeStateNotifierProvider<WidgetPara,
-          Map<String, WidgetParaProductsCardMode>>
-      get widgetParaProvider => _widgetParaProvider;
+  static AutoDisposeStateNotifierProvider<WidgetProductsCardConfig,
+          Map<String, WidgetProductsCardConfigMode>>
+      get widgetProductsCardConfigProvider => _widgetProductsCardConfigProvider;
 
   //-----------
-  static StateNotifierProvider<RestaurantList, List<String>>
-      get restaurantList1 => _restaurantList;
+
   static StateNotifierProvider<AppConfigLayOut, AppConfigLayOutModel>
       get appConfig => _appConfig;
-  // static StateNotifierProvider<WidgetConfig, Map<String, WidgetConfiguration>>
-  //     get widgetConfig => _widgetConfig;
-  // static AutoDisposeStateNotifierProvider<TitleShowingOnProductCategoriesList,
-  //         String>
-  //     get titleShowingOnProductCategoriesList =>
-  //         _titleShowingOnProductCategoriesList;
 }
 
 //-----------------------------------------------------------
 
-final _widgetParaProvider = StateNotifierProvider.autoDispose<WidgetPara,
-    Map<String, WidgetParaProductsCardMode>>((ref) {
+//-----------------
+final _widgetProductsCardConfigProvider = StateNotifierProvider.autoDispose<
+    WidgetProductsCardConfig, Map<String, WidgetProductsCardConfigMode>>((ref) {
   final productState = ref.watch(productControllerProvider);
   final categories = productState.categories;
   final products = productState.products;
-  Map<String, WidgetParaProductsCardMode> widgetParaProductsCard = {};
+  Map<String, WidgetProductsCardConfigMode> widgetParaProductsCard = {};
   for (int index = 0; index < categories.length; index++) {
     if (index == 0) {
       final categoryName = categories[0];
@@ -39,33 +34,42 @@ final _widgetParaProvider = StateNotifierProvider.autoDispose<WidgetPara,
           .where((product) => product.category == categoryName)
           .toList();
       const startPixcel = 0.0;
-      final productsCardHeight = WidgetParaData.productsCardHeight(
-        heightOfAProuctCard: WidgetParaData.heightOfAProuctCard,
-        crossAxisSpacingInGridCard: WidgetParaData.crossAxisSpacingInGridCard,
+      final productsCardHeight =
+          WidgetProductsCardConfigData.productsCardHeight(
+        heightOfAProuctCard: WidgetProductsCardConfigData.heightOfAProuctCard,
+        crossAxisSpacingInGridCard:
+            WidgetProductsCardConfigData.crossAxisSpacingInGridCard,
         numProducts: productsForCategory.length,
-        productsPerRow: WidgetParaData.productsPerRow,
+        productsPerRow: WidgetProductsCardConfigData.productsPerRow,
       );
-      final endPixcel = WidgetParaData.endPixcel(
-          heightOfProductCategory: WidgetParaData.heightOfProductCategory,
+      final endPixcel = WidgetProductsCardConfigData.endPixcel(
+          heightOfProductCategory:
+              WidgetProductsCardConfigData.heightOfProductCategory,
           heightOfProuctsCard: productsCardHeight,
-          heoghtOfRestaurantTitle: WidgetParaData.heoghtOfRestaurantTitle,
+          heoghtOfRestaurantTitle:
+              WidgetProductsCardConfigData.heoghtOfRestaurantTitle,
           startPixcel: startPixcel);
-      final halfPixcel = WidgetParaData.halfPixcel(
-          theDistanceBewteentoHalf: WidgetParaData.theDistanceBewteentoHalf,
+      final halfPixcel = WidgetProductsCardConfigData.halfPixcel(
+          theDistanceBewteentoHalf:
+              WidgetProductsCardConfigData.theDistanceBewteentoHalf,
           endPixcel: endPixcel);
 
-      widgetParaProductsCard[categoryName] = WidgetParaProductsCardMode(
+      widgetParaProductsCard[categoryName] = WidgetProductsCardConfigMode(
         hlafPixcel: halfPixcel,
         index: 0,
         name: categoryName,
         productsLength: productsForCategory.length,
         startPixcel: startPixcel,
-        numberOfRow:
-            (productsForCategory.length / WidgetParaData.productsPerRow).ceil(),
+        numberOfRow: (productsForCategory.length /
+                WidgetProductsCardConfigData.productsPerRow)
+            .ceil(),
         endPixcel: endPixcel,
-        bottomDistance: WidgetParaData.theDistanceBewteentoHalf,
+        bottomDistance: WidgetProductsCardConfigData.theDistanceBewteentoHalf,
         productsCardHeight: productsCardHeight,
         previousHalfPixcel: 0,
+        productsForCategory: productsForCategory,
+        productsPerRow: WidgetProductsCardConfigData.productsPerRow,
+        heightOfAProuctCard: WidgetProductsCardConfigData.heightOfAProuctCard,
       );
     }
     if (index > 0) {
@@ -81,67 +85,55 @@ final _widgetParaProvider = StateNotifierProvider.autoDispose<WidgetPara,
           widgetParaProductsCard[previousCategory];
       final startPixcel = previousWidgetParaProductsCardMode!.endPixcel;
       final previousHalfPixcel = previousWidgetParaProductsCardMode.hlafPixcel;
-      final productsCardHeight = WidgetParaData.productsCardHeight(
-        heightOfAProuctCard: WidgetParaData.heightOfAProuctCard,
-        crossAxisSpacingInGridCard: WidgetParaData.crossAxisSpacingInGridCard,
+      final productsCardHeight =
+          WidgetProductsCardConfigData.productsCardHeight(
+        heightOfAProuctCard: WidgetProductsCardConfigData.heightOfAProuctCard,
+        crossAxisSpacingInGridCard:
+            WidgetProductsCardConfigData.crossAxisSpacingInGridCard,
         numProducts: productsForCategory.length,
-        productsPerRow: WidgetParaData.productsPerRow,
+        productsPerRow: WidgetProductsCardConfigData.productsPerRow,
       );
 
-      final endPixcel = WidgetParaData.endPixcel(
-          heightOfProductCategory: WidgetParaData.heightOfProductCategory,
+      final endPixcel = WidgetProductsCardConfigData.endPixcel(
+          heightOfProductCategory:
+              WidgetProductsCardConfigData.heightOfProductCategory,
           heightOfProuctsCard: productsCardHeight,
-          heoghtOfRestaurantTitle: WidgetParaData.heoghtOfRestaurantTitle,
+          heoghtOfRestaurantTitle:
+              WidgetProductsCardConfigData.heoghtOfRestaurantTitle,
           startPixcel: startPixcel);
 
-      final halfPixcel = WidgetParaData.halfPixcel(
-          theDistanceBewteentoHalf: WidgetParaData.theDistanceBewteentoHalf,
+      final halfPixcel = WidgetProductsCardConfigData.halfPixcel(
+          theDistanceBewteentoHalf:
+              WidgetProductsCardConfigData.theDistanceBewteentoHalf,
           endPixcel: endPixcel);
-      widgetParaProductsCard[categoryName] = WidgetParaProductsCardMode(
+      widgetParaProductsCard[categoryName] = WidgetProductsCardConfigMode(
         hlafPixcel: halfPixcel,
         index: index,
         name: categoryName,
         productsLength: productsForCategory.length,
         startPixcel: startPixcel,
-        numberOfRow:
-            (productsForCategory.length / WidgetParaData.productsPerRow).ceil(),
-        bottomDistance: WidgetParaData.theDistanceBewteentoHalf,
+        numberOfRow: (productsForCategory.length /
+                WidgetProductsCardConfigData.productsPerRow)
+            .ceil(),
+        bottomDistance: WidgetProductsCardConfigData.theDistanceBewteentoHalf,
         productsCardHeight: productsCardHeight,
         endPixcel: endPixcel,
         previousHalfPixcel: previousHalfPixcel,
+        productsForCategory: productsForCategory,
+        productsPerRow: WidgetProductsCardConfigData.productsPerRow,
+        heightOfAProuctCard: WidgetProductsCardConfigData.heightOfAProuctCard,
       );
     }
 
     // widgetParaProductsCard[categoryName] = productsForCategory;
   }
-  return WidgetPara(widgetParaProductsCard);
+  return WidgetProductsCardConfig(widgetParaProductsCard);
 });
-final _restaurantList =
-    StateNotifierProvider<RestaurantList, List<String>>((ref) {
-  return RestaurantList();
-});
-final _widgetConfig =
-    StateNotifierProvider<WidgetConfig, Map<String, WidgetConfiguration>>(
-        (ref) {
-  final restaurantList = ref.watch(AbstractUtilityProvider.restaurantList1);
-  // final name = restaurantList[0];
-  return WidgetConfig({
-    'initial': WidgetConfiguration(
-        name: 'initial',
-        positionPixcel: 0,
-        restaurantIndex: 0,
-        widgetHeight: 0,
-        widgetWidth: 0)
-  });
-});
-// final _titleShowingOnProductCategoriesList = StateNotifierProvider.autoDispose<
-//     TitleShowingOnProductCategoriesList, String>((ref) {
-//   final restaurantList = ref.watch(AbstractUtilityProvider.restaurantList1);
-
-//   final fistRestaurant = restaurantList[0];
-//   // final title = ref.watch(productCategoryProvider);
-//   return TitleShowingOnProductCategoriesList(fistRestaurant, ref);
+// final _restaurantList =
+//     StateNotifierProvider<RestaurantList, List<String>>((ref) {
+//   return RestaurantList();
 // });
+
 final _appConfig =
     StateNotifierProvider<AppConfigLayOut, AppConfigLayOutModel>((ref) {
   return AppConfigLayOut();
@@ -167,31 +159,10 @@ class WidgetConfig extends StateNotifier<Map<String, WidgetConfiguration>> {
               widgetWidth: widgetWidth,
               positionPixcel: positionPixcel,
             ));
-
-    // print(state);
-    // print('addWidgetConfiguration');
-    // print(state);
-  }
-
-  // Map<String, double> get lacaotion {
-  //   return state;
-  // }
-
-  // Map<String, double> getwidgetLocation() {
-  //   return lacaotion;
-  // }
-}
-
-class TitleShowingOnProductCategoriesList extends StateNotifier<String> {
-  TitleShowingOnProductCategoriesList(String state, this.ref) : super(state);
-  final Ref ref;
-
-  void titleOnScreen({required String title}) {
-    // print('TitleShowingOnProductCategoriesList abstract.utiliey titleOnScreen');
-    state = title;
-    // print(state);
   }
 }
+
+//------------------------------------
 
 class AppConfigLayOut extends StateNotifier<AppConfigLayOutModel> {
   AppConfigLayOut(
@@ -243,14 +214,14 @@ class AppConfigLayOut extends StateNotifier<AppConfigLayOutModel> {
   }
 }
 
-class WidgetPara
-    extends StateNotifier<Map<String, WidgetParaProductsCardMode>> {
-  final Map<String, WidgetParaProductsCardMode> state;
-  WidgetPara(this.state) : super(state);
+class WidgetProductsCardConfig
+    extends StateNotifier<Map<String, WidgetProductsCardConfigMode>> {
+  final Map<String, WidgetProductsCardConfigMode> initialState;
+  WidgetProductsCardConfig(this.initialState) : super(initialState);
 
   void addWidgetPara(
       {required String name,
-      required WidgetParaProductsCardMode widgetParaProductsCard}) {
+      required WidgetProductsCardConfigMode widgetParaProductsCard}) {
     if (state.containsKey(name)) {
       state[name] = (widgetParaProductsCard);
     } else {
@@ -268,7 +239,7 @@ class WidgetPara
   // }
 }
 
-class WidgetParaProductsCardMode {
+class WidgetProductsCardConfigMode {
   final int index;
   final String name;
   final double startPixcel;
@@ -279,9 +250,15 @@ class WidgetParaProductsCardMode {
   final double bottomDistance;
   final double productsCardHeight;
   final double previousHalfPixcel;
+  final List<Product> productsForCategory;
+  final int productsPerRow;
+  final double heightOfAProuctCard;
 
-  WidgetParaProductsCardMode(
-      {required this.previousHalfPixcel,
+  WidgetProductsCardConfigMode(
+      {required this.heightOfAProuctCard,
+      required this.productsPerRow,
+      required this.productsForCategory,
+      required this.previousHalfPixcel,
       required this.productsCardHeight,
       required this.bottomDistance,
       required this.endPixcel,
@@ -293,7 +270,7 @@ class WidgetParaProductsCardMode {
       required this.hlafPixcel});
 }
 
-class WidgetParaData {
+class WidgetProductsCardConfigData {
   static const fromTitleOfMiddleOf = 284.0;
   static const heightOfProductCategory = 20.0;
   static const heoghtOfRestaurantTitle = 20.0;
@@ -348,16 +325,213 @@ class WidgetParaData {
   }
 }
 
-class RestaurantList extends StateNotifier<List<String>> {
-  RestaurantList() : super([]);
+//-----------------
 
-  void getRestaurantList({required List<String> restaurantList}) {
-    // print('TitleShowingOnProductCategoriesList abstract.utiliey titleOnScreen');
-    state = restaurantList;
+final widgetAProductDetailConfigProvider = StateNotifierProvider.autoDispose<
+    WidgetAProductDetailConfig,
+    Map<String, ProductDetailsRowConfigMode>>((ref) {
+  final widgetProductsCardConfigProvider =
+      ref.watch(AbstractUtilityProvider.widgetProductsCardConfigProvider);
 
-    // print(state);
+  final List<String> categories =
+      widgetProductsCardConfigProvider.keys.toList();
+  print('this is category trong widgetAProductDetailConfigProvider');
+  categories.forEach((element) {
+    print(element);
+  });
+  Map<String, ProductDetailsRowConfigMode> widgetAProductDetailConfig = {};
+
+  for (int categoryIndex = 0;
+      categoryIndex < categories.length;
+      categoryIndex++) {
+    final WidgetProductsCardConfigMode? widgetProductsCardConfigMode =
+        widgetProductsCardConfigProvider[categories[categoryIndex]];
+
+    final List<Product> categoryProducts =
+        widgetProductsCardConfigMode!.productsForCategory;
+    print('list of product ');
+    print('categoryProducts.length');
+    print(categoryProducts.length);
+    categoryProducts.forEach((element) {
+      print(element.name);
+    });
+    final productPerRow =
+        widgetProductsCardConfigProvider[categories[categoryIndex]]!
+            .productsPerRow;
+    print('productPerRow');
+    print(productPerRow);
+    if (categoryIndex != 0 &&
+        widgetProductsCardConfigProvider[categories[categoryIndex]] != null) {
+      print('this is loop of category ');
+      print('the category ${categories[categoryIndex]}');
+      final WidgetProductsCardConfigMode? widgetProductsCardConfigMode =
+          widgetProductsCardConfigProvider[categories[categoryIndex]];
+      final int numberOfRow =
+          widgetProductsCardConfigProvider[categories[categoryIndex]]!
+              .numberOfRow;
+      print('numberOfRow  ${numberOfRow}');
+
+      final productLength =
+          widgetProductsCardConfigProvider[categories[categoryIndex]]!
+              .productsLength;
+      print('productLength  ${productLength}');
+      final List<ProductInformation> productInformation = [];
+      final startCount = 0;
+      print('startCount  ${startCount}');
+      final endCount = (categoryIndex + productPerRow > productLength)
+          ? productLength
+          : categoryIndex + productPerRow;
+      print('endCount  ${endCount}');
+      for (int i = startCount; i < endCount; i++) {
+        print('this is ProductInformation ${i}');
+        print(ProductInformation(
+            indexInRow: i,
+            productDetailId: categoryProducts[i].id,
+            productName: categoryProducts[i].name));
+        productInformation.add(ProductInformation(
+            indexInRow: i,
+            productDetailId: categoryProducts[i].id,
+            productName: categoryProducts[i].name));
+      }
+      Map<int, ProductIndexConfig> productInformationMap = {};
+      for (int rowIndex = 0; rowIndex < numberOfRow; rowIndex++) {
+        productInformationMap[rowIndex] = ProductIndexConfig(
+            productEndPixcel: widgetProductsCardConfigMode!.previousHalfPixcel +
+                widgetProductsCardConfigMode.heightOfAProuctCard,
+            productInformation: productInformation,
+            productStartPixcel: widgetProductsCardConfigMode.previousHalfPixcel,
+            rowProductIndex: rowIndex);
+      }
+      widgetAProductDetailConfig[categories[categoryIndex]] =
+          ProductDetailsRowConfigMode(
+        productInformationMap: productInformationMap,
+        restaurantEndPixcel: widgetProductsCardConfigMode!.endPixcel,
+        restaurantHalfPixcel: widgetProductsCardConfigMode.hlafPixcel,
+        restaurantName: widgetProductsCardConfigMode.name,
+        restaurantStartPixcel: widgetProductsCardConfigMode.startPixcel,
+        restaurantPreviousHalfPixcel:
+            widgetProductsCardConfigMode.previousHalfPixcel,
+        numberOfRow: numberOfRow,
+      );
+    }
+    if (categoryIndex == 0 &&
+        widgetProductsCardConfigProvider[categories[0]] != null) {
+      final WidgetProductsCardConfigMode? widgetProductsCardConfigMode =
+          widgetProductsCardConfigProvider[categories[0]];
+      final int numberOfRow =
+          widgetProductsCardConfigProvider[categories[0]]!.numberOfRow;
+
+      final productLength =
+          widgetProductsCardConfigProvider[categories[categoryIndex]]!
+              .productsLength;
+      final List<ProductInformation> productInformation = [];
+      final startCount = categoryIndex;
+      final endCount = (categoryIndex + productPerRow > productLength)
+          ? productLength
+          : categoryIndex + productPerRow;
+      for (int i = startCount; i < endCount; i++) {
+        productInformation.add(ProductInformation(
+            indexInRow: i,
+            productDetailId: categoryProducts[i].id,
+            productName: categoryProducts[i].name));
+      }
+      Map<int, ProductIndexConfig> productInformationMap = {};
+      for (int rowIndex = 0; rowIndex < numberOfRow + 1; rowIndex++) {
+        productInformationMap[rowIndex] = ProductIndexConfig(
+            productEndPixcel: widgetProductsCardConfigMode!.previousHalfPixcel +
+                widgetProductsCardConfigMode.heightOfAProuctCard,
+            productInformation: productInformation,
+            productStartPixcel: widgetProductsCardConfigMode.previousHalfPixcel,
+            rowProductIndex: rowIndex);
+      }
+
+      //---------------------
+      widgetAProductDetailConfig[categories[0]] = ProductDetailsRowConfigMode(
+        productInformationMap: productInformationMap,
+        restaurantEndPixcel: widgetProductsCardConfigMode!.endPixcel,
+        restaurantHalfPixcel: widgetProductsCardConfigMode.hlafPixcel,
+        restaurantName: widgetProductsCardConfigMode.name,
+        restaurantStartPixcel: widgetProductsCardConfigMode.startPixcel,
+        restaurantPreviousHalfPixcel:
+            widgetProductsCardConfigMode.previousHalfPixcel,
+        numberOfRow: numberOfRow,
+      );
+    }
+  }
+
+  return WidgetAProductDetailConfig(widgetAProductDetailConfig);
+});
+
+class WidgetAProductDetailConfig
+    extends StateNotifier<Map<String, ProductDetailsRowConfigMode>> {
+  final Map<String, ProductDetailsRowConfigMode> initialState;
+  WidgetAProductDetailConfig(this.initialState) : super(initialState);
+
+  void addWidgetWidgetAProductDetailConfigMap(
+      {required String categoryName,
+      required int rowIndex,
+      required ProductDetailsRowConfigMode widgetAProductDetailConfigMap}) {
+    state[categoryName] = (widgetAProductDetailConfigMap);
   }
 }
+
+//------------------------
+
+//------------------------
+class ProductDetailsRowConfigMode {
+  final Map<int, ProductIndexConfig> productInformationMap;
+  final int numberOfRow;
+  final double restaurantPreviousHalfPixcel;
+  final double restaurantStartPixcel;
+  final double restaurantEndPixcel;
+  final double restaurantHalfPixcel;
+  final String restaurantName;
+
+  ProductDetailsRowConfigMode({
+    required this.numberOfRow,
+    required this.restaurantPreviousHalfPixcel,
+    required this.restaurantHalfPixcel,
+    required this.restaurantEndPixcel,
+    required this.restaurantName,
+    required this.productInformationMap,
+    required this.restaurantStartPixcel,
+  });
+}
+
+class ProductIndexConfig {
+  final List<ProductInformation> productInformation;
+  final double productStartPixcel;
+  final double productEndPixcel;
+  final int rowProductIndex;
+
+  ProductIndexConfig(
+      {required this.productInformation,
+      required this.productStartPixcel,
+      required this.productEndPixcel,
+      required this.rowProductIndex});
+}
+
+class ProductInformation {
+  final String productName;
+  final String productDetailId;
+  final int indexInRow;
+  ProductInformation({
+    required this.productName,
+    required this.productDetailId,
+    required this.indexInRow,
+  });
+}
+//------------
+// class RestaurantList extends StateNotifier<List<String>> {
+//   RestaurantList() : super([]);
+
+//   void getRestaurantList({required List<String> restaurantList}) {
+//     // print('TitleShowingOnProductCategoriesList abstract.utiliey titleOnScreen');
+//     state = restaurantList;
+
+//     // print(state);
+//   }
+// }
 // class AppConfigLayOut {
 //   final bool isPhone;
 //   final bool isTablet;

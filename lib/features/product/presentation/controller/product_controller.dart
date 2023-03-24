@@ -37,10 +37,10 @@ class ProductController extends StateNotifier<ProductState> {
             success.products.map((e) => e.category).toSet().toList();
 
         // get restaurant list in temporary base on category
-        ref
-            .read(AbstractUtilityProvider.restaurantList1.notifier)
-            .getRestaurantList(
-                restaurantList: [...oldCategories, ...newCategories]);
+        // ref
+        //     .read(AbstractUtilityProvider.restaurantList1.notifier)
+        //     .getRestaurantList(
+        //         restaurantList: [...oldCategories, ...newCategories]);
         // brands
         final newBrand =
             success.products.map((e) => e.category).toSet().toList();
@@ -81,6 +81,12 @@ class ProductController extends StateNotifier<ProductState> {
     }
   }
 
+  void updateThumbProduct({required List<ProductInformation> thumProduct}) {
+    state = state.copyWith(
+      productInformation: thumProduct,
+    );
+  }
+
   Future<ProductState> getProductstest({required int pageNumber}) async {
     if (state.isFetching) return state;
 
@@ -92,6 +98,7 @@ class ProductController extends StateNotifier<ProductState> {
     final oldCategories = state.categories;
     final oldBrand = state.brands;
     final oldCategoryOnScreen = state.categoryOnScreen;
+    final oldProductThumb = state.productInformation;
     final result = await _productService.getProducts(query);
     // category
 
@@ -124,6 +131,7 @@ class ProductController extends StateNotifier<ProductState> {
                 categoryIndex: 0,
                 categoryOnScreen: categories[0],
               ),
+          productInformation: oldProductThumb,
         );
       },
       (error) {

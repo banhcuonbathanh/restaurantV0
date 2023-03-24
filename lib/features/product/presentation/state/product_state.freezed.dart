@@ -26,6 +26,8 @@ mixin _$ProductState {
   List<String> get brands => throw _privateConstructorUsedError;
   CategoryOnScreenModel? get categoryOnScreen =>
       throw _privateConstructorUsedError;
+  List<ProductInformation> get productInformation =>
+      throw _privateConstructorUsedError;
   String? get errorMsg => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -49,6 +51,7 @@ abstract class $ProductStateCopyWith<$Res> {
       List<String> categories,
       List<String> brands,
       CategoryOnScreenModel? categoryOnScreen,
+      List<ProductInformation> productInformation,
       String? errorMsg});
 }
 
@@ -74,6 +77,7 @@ class _$ProductStateCopyWithImpl<$Res, $Val extends ProductState>
     Object? categories = null,
     Object? brands = null,
     Object? categoryOnScreen = freezed,
+    Object? productInformation = null,
     Object? errorMsg = freezed,
   }) {
     return _then(_value.copyWith(
@@ -113,6 +117,10 @@ class _$ProductStateCopyWithImpl<$Res, $Val extends ProductState>
           ? _value.categoryOnScreen
           : categoryOnScreen // ignore: cast_nullable_to_non_nullable
               as CategoryOnScreenModel?,
+      productInformation: null == productInformation
+          ? _value.productInformation
+          : productInformation // ignore: cast_nullable_to_non_nullable
+              as List<ProductInformation>,
       errorMsg: freezed == errorMsg
           ? _value.errorMsg
           : errorMsg // ignore: cast_nullable_to_non_nullable
@@ -139,6 +147,7 @@ abstract class _$$_ProductStateCopyWith<$Res>
       List<String> categories,
       List<String> brands,
       CategoryOnScreenModel? categoryOnScreen,
+      List<ProductInformation> productInformation,
       String? errorMsg});
 }
 
@@ -162,6 +171,7 @@ class __$$_ProductStateCopyWithImpl<$Res>
     Object? categories = null,
     Object? brands = null,
     Object? categoryOnScreen = freezed,
+    Object? productInformation = null,
     Object? errorMsg = freezed,
   }) {
     return _then(_$_ProductState(
@@ -201,6 +211,10 @@ class __$$_ProductStateCopyWithImpl<$Res>
           ? _value.categoryOnScreen
           : categoryOnScreen // ignore: cast_nullable_to_non_nullable
               as CategoryOnScreenModel?,
+      productInformation: null == productInformation
+          ? _value._productInformation
+          : productInformation // ignore: cast_nullable_to_non_nullable
+              as List<ProductInformation>,
       errorMsg: freezed == errorMsg
           ? _value.errorMsg
           : errorMsg // ignore: cast_nullable_to_non_nullable
@@ -222,10 +236,12 @@ class _$_ProductState implements _ProductState {
       final List<String> categories = const [],
       final List<String> brands = const [],
       this.categoryOnScreen = null,
+      final List<ProductInformation> productInformation = const [],
       this.errorMsg})
       : _products = products,
         _categories = categories,
-        _brands = brands;
+        _brands = brands,
+        _productInformation = productInformation;
 
   @override
   @JsonKey()
@@ -272,12 +288,22 @@ class _$_ProductState implements _ProductState {
   @override
   @JsonKey()
   final CategoryOnScreenModel? categoryOnScreen;
+  final List<ProductInformation> _productInformation;
+  @override
+  @JsonKey()
+  List<ProductInformation> get productInformation {
+    if (_productInformation is EqualUnmodifiableListView)
+      return _productInformation;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_productInformation);
+  }
+
   @override
   final String? errorMsg;
 
   @override
   String toString() {
-    return 'ProductState(isLoading: $isLoading, isFetching: $isFetching, currentPage: $currentPage, totalPage: $totalPage, total: $total, products: $products, categories: $categories, brands: $brands, categoryOnScreen: $categoryOnScreen, errorMsg: $errorMsg)';
+    return 'ProductState(isLoading: $isLoading, isFetching: $isFetching, currentPage: $currentPage, totalPage: $totalPage, total: $total, products: $products, categories: $categories, brands: $brands, categoryOnScreen: $categoryOnScreen, productInformation: $productInformation, errorMsg: $errorMsg)';
   }
 
   @override
@@ -300,6 +326,8 @@ class _$_ProductState implements _ProductState {
             const DeepCollectionEquality().equals(other._brands, _brands) &&
             (identical(other.categoryOnScreen, categoryOnScreen) ||
                 other.categoryOnScreen == categoryOnScreen) &&
+            const DeepCollectionEquality()
+                .equals(other._productInformation, _productInformation) &&
             (identical(other.errorMsg, errorMsg) ||
                 other.errorMsg == errorMsg));
   }
@@ -316,6 +344,7 @@ class _$_ProductState implements _ProductState {
       const DeepCollectionEquality().hash(_categories),
       const DeepCollectionEquality().hash(_brands),
       categoryOnScreen,
+      const DeepCollectionEquality().hash(_productInformation),
       errorMsg);
 
   @JsonKey(ignore: true)
@@ -336,6 +365,7 @@ abstract class _ProductState implements ProductState {
       final List<String> categories,
       final List<String> brands,
       final CategoryOnScreenModel? categoryOnScreen,
+      final List<ProductInformation> productInformation,
       final String? errorMsg}) = _$_ProductState;
 
   @override
@@ -356,6 +386,8 @@ abstract class _ProductState implements ProductState {
   List<String> get brands;
   @override
   CategoryOnScreenModel? get categoryOnScreen;
+  @override
+  List<ProductInformation> get productInformation;
   @override
   String? get errorMsg;
   @override

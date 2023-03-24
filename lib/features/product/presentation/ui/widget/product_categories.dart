@@ -23,13 +23,15 @@ class _ProductCategoriesState extends ConsumerState<ProductCategories> {
   String isOnScreen = '';
   @override
   Widget build(BuildContext context) {
+    final productcontroller = ref.watch(productControllerProvider);
     final ScrollController categoryScrollController = ScrollController();
     final categoriesData = widget.state.categories;
     final categoryOnScreen = ref.watch(
         productControllerProvider.select((value) => value.categoryOnScreen));
     final fetchingState = ref
         .watch(productControllerProvider.select((value) => value.isFetching));
-    final widgetPara = ref.watch(AbstractUtilityProvider.widgetParaProvider);
+    final widgetPara =
+        ref.watch(AbstractUtilityProvider.widgetProductsCardConfigProvider);
 //---------
     categoryScrollController.addListener(() {
       final maxScrollExtent = categoryScrollController.position.maxScrollExtent;
@@ -46,6 +48,9 @@ class _ProductCategoriesState extends ConsumerState<ProductCategories> {
       }
     });
 //--------
+    final widgetAProductDetailConfig =
+        ref.watch(widgetAProductDetailConfigProvider);
+
     return Row(
       children: [
         Flexible(
@@ -57,11 +62,22 @@ class _ProductCategoriesState extends ConsumerState<ProductCategories> {
               scrollDirection: Axis.horizontal,
               itemCount: categoriesData.length,
               itemBuilder: (context, index) {
-                // final name = ref.watch(
-                //     AbstractUtilityProvider.titleShowingOnProductCategoriesList);
-
                 final category = categoriesData[index];
                 final test = widgetPara[category];
+                // final name = ref.watch(
+                //     AbstractUtilityProvider.titleShowingOnProductCategoriesList);
+//--------------------------
+
+                final ProductDetailsRowConfigMode?
+                    widgetAProductDetailConfigCategory =
+                    widgetAProductDetailConfig[category];
+                print('widgetAProductDetailConfigCategory');
+                print(
+                    widgetAProductDetailConfigCategory!.productInformationMap);
+                final Map<int, ProductIndexConfig> productIndexConfig =
+                    widgetAProductDetailConfigCategory.productInformationMap;
+//------------------
+//--------------------------
 
                 if (test != null) {
                   widget.appScroller.addListener(() {
@@ -81,6 +97,29 @@ class _ProductCategoriesState extends ConsumerState<ProductCategories> {
                                   newCategoryOnScreen: CategoryOnScreenModel(
                                       categoryIndex: index,
                                       categoryOnScreen: test.name));
+
+                          for (int i = 0;
+                              i <
+                                  widgetAProductDetailConfigCategory
+                                      .numberOfRow;
+                              i++) {
+                            final productIndexConfigindex =
+                                productIndexConfig[i];
+                            if (productIndexConfigindex != null) {
+                              if (widget.appScroller.position.pixels >
+                                  productIndexConfigindex.productStartPixcel) {
+                                if (widget.appScroller.position.pixels <
+                                    productIndexConfigindex.productEndPixcel) {
+                                  ref
+                                      .read(productControllerProvider.notifier)
+                                      .updateThumbProduct(
+                                          thumProduct: productIndexConfigindex
+                                              .productInformation);
+                                }
+                              }
+                            }
+                          }
+
                           // ref
                           //     .read(AbstractUtilityProvider
                           //         .titleShowingOnProductCategoriesList.notifier)
@@ -129,6 +168,36 @@ class _ProductCategoriesState extends ConsumerState<ProductCategories> {
                             ? Colors.orange
                             : Colors.blue),
                     child: GestureDetector(
+                      onDoubleTap: () {
+                        print('productcontroller');
+                        print(productcontroller);
+                        print('productcontroller.products.length');
+                        print(productcontroller.products.length);
+                        productcontroller.products.forEach((element) {
+                          print('product name');
+                          print(element.name);
+                          print('product category');
+                          print(element.category);
+                        });
+                      },
+                      onTap: () {
+                        print('this is category ');
+                        print(
+                            'number of row ${widgetAProductDetailConfigCategory.numberOfRow}');
+                        for (int i = 0;
+                            i < widgetAProductDetailConfigCategory.numberOfRow;
+                            i++) {
+                          print('this is product trong index ${i}');
+                          final products = widgetAProductDetailConfigCategory
+                              .productInformationMap[i]?.productInformation;
+                          if (products != null) {
+                            for (ProductInformation product in products) {
+                              print('this is product deatil');
+                              print(product.productName);
+                            }
+                          }
+                        }
+                      },
                       child: Text(category,
                           style: const TextStyle(
                             overflow: TextOverflow.ellipsis,

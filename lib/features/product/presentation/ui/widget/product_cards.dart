@@ -33,7 +33,7 @@ class ProductCards extends ConsumerWidget {
     // print(categories.length);
 
     return ListView.builder(
-        physics: ClampingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         controller: scrollController,
         shrinkWrap: true,
         primary: false,

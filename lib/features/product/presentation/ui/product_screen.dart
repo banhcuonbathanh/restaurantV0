@@ -5,7 +5,9 @@ import 'package:restauranttdd0/common/extensions/string_hardcoded.dart';
 import 'package:restauranttdd0/features/product/presentation/state/product_state.dart';
 import 'package:restauranttdd0/features/product/presentation/ui/widget/product_cards.dart';
 import 'package:restauranttdd0/features/product/presentation/ui/widget/product_categories.dart';
+import 'package:restauranttdd0/features/product/presentation/ui/widget/product_right_thumb_view.dart';
 import 'package:restauranttdd0/features/product/presentation/ui/widget/product_error_widget.dart';
+import 'package:restauranttdd0/features/product/presentation/ui/widget/restaurant_left_thumb_view.dart';
 
 import '../../../../common/styles/dimens.dart';
 import '../../../../common/widget/app_scaffold.dart';
@@ -51,10 +53,6 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('build ProductScreen ${number}');
-
-    number++;
-
     // if (number == 0) {
     //   setState(() {
     //     number = 1;
@@ -98,12 +96,12 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
           Positioned(
             bottom: 0,
             right: 0,
-            child: Column(
-              children: [
-                Text('data'),
-                Text('data'),
-              ],
-            ),
+            child: ProductRightThumbView(),
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            child: RestaurantLeftThumbView(),
           )
         ],
       ),

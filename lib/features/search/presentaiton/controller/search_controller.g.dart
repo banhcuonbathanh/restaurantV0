@@ -29,7 +29,7 @@ class _SystemHash {
   }
 }
 
-String _$SearchControllerHash() => r'9264a276484bc94baa85974edce361b4d11ad1d7';
+String _$SearchControllerHash() => r'b074ffc474fe1749dad986fb45e0ccf371ddc35e';
 
 /// See also [SearchController].
 final searchControllerProvider =
