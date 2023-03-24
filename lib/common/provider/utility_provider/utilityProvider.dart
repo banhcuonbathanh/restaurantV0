@@ -16,12 +16,12 @@ abstract class AbstractUtilityProvider {
       get restaurantList1 => _restaurantList;
   static StateNotifierProvider<AppConfigLayOut, AppConfigLayOutModel>
       get appConfig => _appConfig;
-  static StateNotifierProvider<WidgetConfig, Map<String, WidgetConfiguration>>
-      get widgetConfig => _widgetConfig;
-  static AutoDisposeStateNotifierProvider<TitleShowingOnProductCategoriesList,
-          String>
-      get titleShowingOnProductCategoriesList =>
-          _titleShowingOnProductCategoriesList;
+  // static StateNotifierProvider<WidgetConfig, Map<String, WidgetConfiguration>>
+  //     get widgetConfig => _widgetConfig;
+  // static AutoDisposeStateNotifierProvider<TitleShowingOnProductCategoriesList,
+  //         String>
+  //     get titleShowingOnProductCategoriesList =>
+  //         _titleShowingOnProductCategoriesList;
 }
 
 //-----------------------------------------------------------
@@ -134,14 +134,14 @@ final _widgetConfig =
         widgetWidth: 0)
   });
 });
-final _titleShowingOnProductCategoriesList = StateNotifierProvider.autoDispose<
-    TitleShowingOnProductCategoriesList, String>((ref) {
-  final restaurantList = ref.watch(AbstractUtilityProvider.restaurantList1);
+// final _titleShowingOnProductCategoriesList = StateNotifierProvider.autoDispose<
+//     TitleShowingOnProductCategoriesList, String>((ref) {
+//   final restaurantList = ref.watch(AbstractUtilityProvider.restaurantList1);
 
-  final fistRestaurant = restaurantList[0];
-  // final title = ref.watch(productCategoryProvider);
-  return TitleShowingOnProductCategoriesList(fistRestaurant, ref);
-});
+//   final fistRestaurant = restaurantList[0];
+//   // final title = ref.watch(productCategoryProvider);
+//   return TitleShowingOnProductCategoriesList(fistRestaurant, ref);
+// });
 final _appConfig =
     StateNotifierProvider<AppConfigLayOut, AppConfigLayOutModel>((ref) {
   return AppConfigLayOut();

@@ -6,7 +6,7 @@ class AppScaffold extends StatelessWidget {
   final bool centerTitle;
   final ScrollController? controller;
   final Widget? bottomNavigationBar;
-
+  final Widget? floatingActionButton;
   const AppScaffold({
     Key? key,
     required this.title,
@@ -14,6 +14,7 @@ class AppScaffold extends StatelessWidget {
     this.centerTitle = true,
     this.controller,
     this.bottomNavigationBar,
+    this.floatingActionButton,
   }) : super(key: key);
 
   @override
@@ -28,6 +29,7 @@ class AppScaffold extends StatelessWidget {
         child: widget,
       ),
       bottomNavigationBar: bottomNavigationBar,
+      floatingActionButton: floatingActionButton,
     );
   }
 }

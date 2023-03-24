@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'common/logging/logging_provider.dart';
 import 'core/local/db/hive_db.dart';
 import 'core/providers/internet_connection_observer.dart';
 import 'main_widget.dart';

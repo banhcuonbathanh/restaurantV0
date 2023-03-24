@@ -36,7 +36,7 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
     scrollController.addListener(() {
       final maxScrollExtent = scrollController.position.maxScrollExtent - 200;
 
-      if (scrollController.position.pixels >= maxScrollExtent) {
+      if (scrollController.position.pixels >= maxScrollExtent - 200) {
         final currentPage = ref.read(productControllerProvider).currentPage;
         final totalPage = ref.read(productControllerProvider).totalPage;
 
@@ -51,9 +51,9 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // print('build ProductScreen ${number}');
+    print('build ProductScreen ${number}');
 
-    // number++;
+    number++;
 
     // if (number == 0) {
     //   setState(() {
@@ -79,7 +79,7 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
     }
 
     return AppScaffold(
-      title: Text('Product'.hardcoded),
+      title: const Text('Product'),
       widget: Stack(
         children: [
           const ProductErrorWidget(),
@@ -94,7 +94,17 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
               right: 0,
               child: Center(child: CircularProgressIndicator.adaptive()),
             ),
-          ]
+          ],
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: Column(
+              children: [
+                Text('data'),
+                Text('data'),
+              ],
+            ),
+          )
         ],
       ),
     );

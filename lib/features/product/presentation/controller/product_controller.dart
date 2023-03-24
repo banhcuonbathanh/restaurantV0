@@ -73,8 +73,6 @@ class ProductController extends StateNotifier<ProductState> {
 
   void updateCategoryOnScreen(
       {required CategoryOnScreenModel newCategoryOnScreen}) {
-    // print('state.categoryOnScreen?.categoryOnScreen');
-    // print(state.categoryOnScreen?.categoryOnScreen);
     if (newCategoryOnScreen.categoryOnScreen !=
         state.categoryOnScreen?.categoryOnScreen) {
       state = state.copyWith(
@@ -93,6 +91,7 @@ class ProductController extends StateNotifier<ProductState> {
     final oldProduct = state.products;
     final oldCategories = state.categories;
     final oldBrand = state.brands;
+    final oldCategoryOnScreen = state.categoryOnScreen;
     final result = await _productService.getProducts(query);
     // category
 
@@ -100,15 +99,15 @@ class ProductController extends StateNotifier<ProductState> {
       (success) {
         final newCategories =
             success.products.map((e) => e.category).toSet().toList();
-
+        final categories = [...oldCategories, ...newCategories];
         // get restaurant list in temporary base on category
-        ref
-            .read(AbstractUtilityProvider.restaurantList1.notifier)
-            .getRestaurantList(
-                restaurantList: [...oldCategories, ...newCategories]);
+        // ref
+        //     .read(AbstractUtilityProvider.restaurantList1.notifier)
+        //     .getRestaurantList(
+        //         restaurantList: [...oldCategories, ...newCategories]);
         // brands
-        final newBrand =
-            success.products.map((e) => e.category).toSet().toList();
+        // final newBrand =
+        //     success.products.map((e) => e.category).toSet().toList();
 
         final newBrands = state.products.map((e) => e.brand).toSet().toList();
         state = state.copyWith(
@@ -118,12 +117,13 @@ class ProductController extends StateNotifier<ProductState> {
           currentPage: success.page.currentPage,
           totalPage: success.page.lastPage,
           total: success.page.total,
-          categories: [...oldCategories, ...newCategories],
+          categories: categories,
           brands: [...oldBrand, ...newBrands],
-          categoryOnScreen: CategoryOnScreenModel(
-            categoryIndex: 0,
-            categoryOnScreen: [...oldCategories, ...newCategories][0],
-          ),
+          categoryOnScreen: oldCategoryOnScreen ??
+              CategoryOnScreenModel(
+                categoryIndex: 0,
+                categoryOnScreen: categories[0],
+              ),
         );
       },
       (error) {
