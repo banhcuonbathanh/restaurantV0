@@ -77,6 +77,44 @@ class GlassmorphicContainer extends StatelessWidget {
   }
 }
 
+class GlassmorphicContainerSecondaryStyle extends StatelessWidget {
+  const GlassmorphicContainerSecondaryStyle({
+    super.key,
+    required this.child,
+    required this.height,
+    required this.width,
+    required this.isPrimary,
+    required this.isGrey,
+  });
+
+  final Widget child;
+  final double height;
+  final double width;
+  final bool isPrimary;
+  final bool isGrey;
+  @override
+  Widget build(BuildContext context) {
+    return GlassmorphicContainer(
+      alignment: Alignment.center,
+      blur: 0.4,
+      border: 1,
+      borderGradient:
+          LinearGradient(colors: [Colors.green.shade100, Colors.white]),
+      borderRadius: 10,
+      height: height,
+      width: width,
+      linearGradient: LinearGradient(
+          colors: isPrimary
+              ? [Colors.orange, Colors.orange]
+              : [
+                  isGrey ? Colors.grey.shade100 : Colors.orange.shade100,
+                  Colors.white
+                ]),
+      child: child,
+    );
+  }
+}
+
 // GlassmorphicContainer(
 //   width: 350,
 //   height: 350,

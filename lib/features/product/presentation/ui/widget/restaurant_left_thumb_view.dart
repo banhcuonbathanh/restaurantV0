@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restauranttdd0/features/product/presentation/controller/product_controller.dart';
 
+import '../../../../../common/app_const_data/app_const_data.dart';
+import '../../../../../common/widget/glassmorphic_container/glassmorphic.dart';
+
 class RestaurantLeftThumbView extends ConsumerStatefulWidget {
   const RestaurantLeftThumbView({super.key});
 
@@ -17,8 +20,6 @@ class _ProductsDetailListViewState
   Widget build(BuildContext context) {
     final category = ref.watch(
         productControllerProvider.select((value) => value.categoryOnScreen));
-    final product = ref.watch(
-        productControllerProvider.select((value) => value.productInformation));
 
     // final testData = ProductDetailsRowConfigMode();
 
@@ -26,14 +27,17 @@ class _ProductsDetailListViewState
       children: [
         if (category != null)
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              alignment: Alignment.center,
-              height: 30,
-              width: 120,
-              decoration: BoxDecoration(
-                  color: Colors.blue, borderRadius: BorderRadius.circular(10)),
-              child: Text(category.categoryOnScreen),
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: GlassmorphicContainerSecondaryStyle(
+              height: WidgetProductsCardConfigData.rightThumbPadViewHeight,
+              width: WidgetProductsCardConfigData.rightThumbViewWidth,
+              isPrimary: true,
+              isGrey: false,
+              child: Text(
+                category.categoryOnScreen,
+                style: TextStyle(
+                    overflow: TextOverflow.ellipsis, color: Colors.black),
+              ),
             ),
           ),
       ],

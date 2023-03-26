@@ -3,9 +3,10 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restauranttdd0/features/product/presentation/controller/product_controller.dart';
 
+import '../../../../../common/app_const_data/app_const_data.dart';
 import '../../../../../common/provider/utility_provider/utilityProvider.dart';
 
-import '../../../../../common/styles/dimens.dart';
+import '../../../../../common/widget/glassmorphic_container/glassmorphic.dart';
 import '../../state/product_state.dart';
 
 class ProductCategories extends ConsumerStatefulWidget {
@@ -20,7 +21,6 @@ class ProductCategories extends ConsumerStatefulWidget {
 }
 
 class _ProductCategoriesState extends ConsumerState<ProductCategories> {
-  String isOnScreen = '';
   @override
   Widget build(BuildContext context) {
     final productcontroller = ref.watch(productControllerProvider);
@@ -31,7 +31,7 @@ class _ProductCategoriesState extends ConsumerState<ProductCategories> {
     final fetchingState = ref
         .watch(productControllerProvider.select((value) => value.isFetching));
     final widgetPara =
-        ref.watch(AbstractUtilityProvider.widgetProductsCardConfigProvider);
+        ref.watch(AbstractUtilityProvider.widgetRestaurantConfigProvider);
 //---------
     categoryScrollController.addListener(() {
       final maxScrollExtent = categoryScrollController.position.maxScrollExtent;
@@ -48,8 +48,8 @@ class _ProductCategoriesState extends ConsumerState<ProductCategories> {
       }
     });
 //--------
-    final widgetAProductDetailConfig =
-        ref.watch(widgetAProductDetailConfigProvider);
+    final productsOfAllRestaurantConfig =
+        ref.watch(productsOfAllRestaurantConfigProvider);
 
     return Row(
       children: [
@@ -68,14 +68,12 @@ class _ProductCategoriesState extends ConsumerState<ProductCategories> {
                 //     AbstractUtilityProvider.titleShowingOnProductCategoriesList);
 //--------------------------
 
-                final ProductDetailsRowConfigMode?
-                    widgetAProductDetailConfigCategory =
-                    widgetAProductDetailConfig[category];
-                print('widgetAProductDetailConfigCategory');
-                print(
-                    widgetAProductDetailConfigCategory!.productInformationMap);
-                final Map<int, ProductIndexConfig> productIndexConfig =
-                    widgetAProductDetailConfigCategory.productInformationMap;
+                final ProductsConfigEachRestaurantMode?
+                    productsConfigEachRestaurant =
+                    productsOfAllRestaurantConfig[category];
+
+                final Map<int, ProductsOfEachRowConfig>? productIndexConfig =
+                    productsConfigEachRestaurant?.productInformationMap;
 //------------------
 //--------------------------
 
@@ -98,23 +96,26 @@ class _ProductCategoriesState extends ConsumerState<ProductCategories> {
                                       categoryIndex: index,
                                       categoryOnScreen: test.name));
 
-                          for (int i = 0;
-                              i <
-                                  widgetAProductDetailConfigCategory
-                                      .numberOfRow;
-                              i++) {
-                            final productIndexConfigindex =
-                                productIndexConfig[i];
-                            if (productIndexConfigindex != null) {
-                              if (widget.appScroller.position.pixels >
-                                  productIndexConfigindex.productStartPixcel) {
-                                if (widget.appScroller.position.pixels <
-                                    productIndexConfigindex.productEndPixcel) {
-                                  ref
-                                      .read(productControllerProvider.notifier)
-                                      .updateThumbProduct(
-                                          thumProduct: productIndexConfigindex
-                                              .productInformation);
+                          if (productsConfigEachRestaurant != null) {
+                            for (int i = 0;
+                                i < productsConfigEachRestaurant.numberOfRow;
+                                i++) {
+                              final productIndexConfigindex =
+                                  productIndexConfig?[i];
+                              if (productIndexConfigindex != null) {
+                                if (widget.appScroller.position.pixels >
+                                    productIndexConfigindex
+                                        .productStartPixcel) {
+                                  if (widget.appScroller.position.pixels <
+                                      productIndexConfigindex
+                                          .productEndPixcel) {
+                                    ref
+                                        .read(
+                                            productControllerProvider.notifier)
+                                        .updateThumbProduct(
+                                            thumProduct: productIndexConfigindex
+                                                .productInformation);
+                                  }
                                 }
                               }
                             }
@@ -140,6 +141,32 @@ class _ProductCategoriesState extends ConsumerState<ProductCategories> {
                                   newCategoryOnScreen: CategoryOnScreenModel(
                                       categoryIndex: index,
                                       categoryOnScreen: test.name));
+
+                          //---------------------------
+
+                          if (productsConfigEachRestaurant != null) {
+                            for (int i = 0;
+                                i < productsConfigEachRestaurant.numberOfRow;
+                                i++) {
+                              final productIndexConfigindex =
+                                  productIndexConfig?[i];
+                              if (productIndexConfigindex != null) {
+                                if (widget.appScroller.position.pixels <
+                                    productIndexConfigindex.productEndPixcel) {
+                                  if (widget.appScroller.position.pixels >
+                                      productIndexConfigindex
+                                          .productStartPixcel) {
+                                    ref
+                                        .read(
+                                            productControllerProvider.notifier)
+                                        .updateThumbProduct(
+                                            thumProduct: productIndexConfigindex
+                                                .productInformation);
+                                  }
+                                }
+                              }
+                            }
+                          }
                         }
                       }
                     }
@@ -159,14 +186,12 @@ class _ProductCategoriesState extends ConsumerState<ProductCategories> {
                 //-----------------
                 return Padding(
                   padding: const EdgeInsets.all(5.0),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 2),
-                    width: 70,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: (categoryOnScreen?.categoryOnScreen == category)
-                            ? Colors.orange
-                            : Colors.blue),
+                  child: GlassmorphicContainerSecondaryStyle(
+                    height:
+                        WidgetProductsCardConfigData.heightOfProductCategory,
+                    width: WidgetProductsCardConfigData.widthOfProductCategory,
+                    isPrimary: categoryOnScreen?.categoryOnScreen == category,
+                    isGrey: categoryOnScreen?.categoryOnScreen != category,
                     child: GestureDetector(
                       onDoubleTap: () {
                         print('productcontroller');
@@ -181,20 +206,75 @@ class _ProductCategoriesState extends ConsumerState<ProductCategories> {
                         });
                       },
                       onTap: () {
-                        print('this is category ');
+                        final allProductInRestaurant =
+                            productsConfigEachRestaurant
+                                ?.allProductInRestaurant;
+
+                        print('this is category ${category}, ');
+                        allProductInRestaurant?.forEach((element) {
+                          print(element.name);
+                        });
+
                         print(
-                            'number of row ${widgetAProductDetailConfigCategory.numberOfRow}');
-                        for (int i = 0;
-                            i < widgetAProductDetailConfigCategory.numberOfRow;
-                            i++) {
-                          print('this is product trong index ${i}');
-                          final products = widgetAProductDetailConfigCategory
-                              .productInformationMap[i]?.productInformation;
-                          if (products != null) {
-                            for (ProductInformation product in products) {
-                              print('this is product deatil');
-                              print(product.productName);
+                            'number of row ${productsConfigEachRestaurant?.numberOfRow}');
+                        if (productsConfigEachRestaurant?.numberOfRow != null) {
+                          for (int i = 0;
+                              i < productsConfigEachRestaurant!.numberOfRow;
+                              i++) {
+                            // final widgetAProductDetailConfigCategory =
+                            //     widgetAProductDetailConfigCategory
+                            //         .productInformationMap[i];
+
+                            final productsConfigEachR =
+                                productsConfigEachRestaurant;
+                            final listproductInformation =
+                                productsConfigEachRestaurant
+                                    .productInformationMap[i]
+                                    ?.productInformation;
+
+                            final key = productsConfigEachR
+                                .productInformationMap.keys
+                                .toList();
+                            print('key ${key.length}');
+                            for (int indexOfEachRow = 0;
+                                indexOfEachRow < key.length;
+                                indexOfEachRow++) {
+                              final productsOfEachRowConfig =
+                                  productsConfigEachR.productInformationMap[i];
+                              final productList =
+                                  productsOfEachRowConfig?.productList;
+                              final productListState =
+                                  productsOfEachRowConfig?.productInformation;
+                              print('products form widgetRestaurant');
+                              productList?.forEach((elemt) {
+                                print(elemt.name);
+                              });
+                              print('products intend to put on state');
+                              productListState?.forEach((elemt) {
+                                print(elemt.productName);
+                              });
+                              print(
+                                  'row index ${indexOfEachRow}, StartPixcel ${productsOfEachRowConfig?.productStartPixcel},  EndPixcel ${productsOfEachRowConfig?.productEndPixcel}, category ${productsOfEachRowConfig?.category}');
                             }
+                            print(
+                                'this is product trong index ${productsConfigEachR.productInformationMap} number of produts ${listproductInformation?.length} ');
+                            // print(
+                            //     'this is product trong index ${i} number of produts ${listproductInformation?.length} ');
+                            // if (listproductInformation != null) {
+                            //   for (ProductInformation product
+                            //       in listproductInformation) {
+                            //     print('productName ${product.productName}');
+
+                            //     print(
+                            //         'indexInRow product ${product.indexInRow}');
+                            //   }
+                            //   print(
+                            //       'startCount ${listproductInformation[0].startCount}');
+                            //   print(
+                            //       'endCount ${listproductInformation[0].endCount}');
+                            //   print(
+                            //       ' product length ${listproductInformation.length}');
+                            // }
                           }
                         }
                       },

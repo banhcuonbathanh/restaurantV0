@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:restauranttdd0/features/product/presentation/controller/product_controller.dart';
 
-import '../../controller/product_controller.dart';
+import '../../../../../common/app_const_data/app_const_data.dart';
+import '../../../../../common/widget/glassmorphic_container/glassmorphic.dart';
 
 class RestuarantTitle extends ConsumerStatefulWidget {
-  final ScrollController scrollController;
   final String restaurantName;
 
   final int restaurantIndex;
-  RestuarantTitle(
-      {required this.restaurantIndex,
-      required this.scrollController,
-      required this.restaurantName,
-      super.key});
+  const RestuarantTitle(
+      {required this.restaurantIndex, required this.restaurantName, super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -55,12 +53,13 @@ class _RestuarantTitleState extends ConsumerState<RestuarantTitle> {
   Widget build(BuildContext context) {
     final categoryOnScreen = ref.watch(
         productControllerProvider.select((value) => value.categoryOnScreen));
-
-    return Container(
-      height: 20,
-      width: 200,
-      color: Colors.orange,
-      alignment: Alignment.center,
+    return GlassmorphicContainerSecondaryStyle(
+      height: WidgetProductsCardConfigData.heightOfRestaurantTitle,
+      width: WidgetProductsCardConfigData.widthOfRestaurantTitle,
+      isPrimary: categoryOnScreen?.categoryOnScreen == widget.restaurantName
+          ? true
+          : false,
+      isGrey: false,
       child: Text(widget.restaurantName, style: const TextStyle()),
     );
   }

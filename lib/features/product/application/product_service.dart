@@ -15,6 +15,7 @@ import '../domain/models/product.dart';
 import '../domain/models/product_detail_model.dart';
 import '../domain/models/product_model.dart';
 import 'iproduct_service.dart';
+import 'package:faker/faker.dart';
 
 final productServiceProvider = Provider.autoDispose<IProductService>((ref) {
   final productRepository = ref.watch(productRepositoryProvider);
@@ -61,7 +62,7 @@ class ProductService
               categoryId: product.categoryId + query['pageNumber'].toString(),
               brandId: product.brandId,
               sku: product.sku,
-              name: product.name,
+              name: faker.company.name() + product.category,
               shortDescription: product.shortDescription,
               longDescription: product.longDescription,
               thumbnail: '$_baseUrl${product.thumbnail}',

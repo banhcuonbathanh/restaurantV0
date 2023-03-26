@@ -65,7 +65,6 @@ class ProductCards extends ConsumerWidget {
               RestuarantTitle(
                 restaurantIndex: index,
                 restaurantName: category,
-                scrollController: scrollController,
               ),
               ProductGridCard(
                 products: state.products,
@@ -203,8 +202,9 @@ class _ProductGridCardState extends ConsumerState<ProductGridCard> {
 
   @override
   Widget build(BuildContext context) {
-    final productCategory =
-        widget.products.where((element) => element.category == widget.category);
+    final productCategory = widget.products
+        .where((element) => element.category == widget.category)
+        .toList();
     return AlignedGridView.count(
       // controller: widget.scrollController,
       shrinkWrap: true,
@@ -220,7 +220,7 @@ class _ProductGridCardState extends ConsumerState<ProductGridCard> {
       mainAxisSpacing: kSmall,
       // controller: _scrollController,
       itemBuilder: (context, index) {
-        final data = widget.products[index];
+        final data = productCategory[index];
 
         return GestureDetector(
           onTap: () {
