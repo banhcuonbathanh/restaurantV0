@@ -17,6 +17,7 @@ class ProductRightThumbView extends ConsumerStatefulWidget {
 
 class _ProductsDetailListViewState
     extends ConsumerState<ProductRightThumbView> {
+  bool isShowProduct = true;
   @override
   Widget build(BuildContext context) {
     final product = ref.watch(
@@ -24,41 +25,54 @@ class _ProductsDetailListViewState
 
     // final testData = ProductDetailsRowConfigMode();
 
-    return Column(
-      children: [
-        for (int i = 0; i < product.length; i++)
-          GestureDetector(
+    return isShowProduct
+        ? Column(
+            children: [
+              for (int i = 0; i < product.length; i++)
+                GestureDetector(
+                    onLongPress: () {
+                      setState(() {
+                        isShowProduct = !isShowProduct;
+                      });
+                    },
+                    onTap: () {
+                      GoRouter.of(context)
+                          .push('/detail/${product[i].productDetailId}');
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: GlassmorphicContainerSecondaryStyle(
+                        height: WidgetProductsCardConfigData
+                            .rightThumbPadViewHeight,
+                        width: WidgetProductsCardConfigData.rightThumbViewWidth,
+                        isPrimary: false,
+                        isGrey: false,
+                        child: Text(
+                          product[i].productName,
+                          style: TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              color: Colors.grey.shade500),
+                        ),
+                      ),
+                    )),
+
+              //   GestureDetector(
+              //     onTap: () {
+              //       setState(() {
+              //         keyTest = i;
+              //       });
+              //     },
+              //     child: Container(
+              //       child: Text(key[i].productName),
+              //     ),
+              //   ),
+            ],
+          )
+        : GestureDetector(
             onTap: () {
-              GoRouter.of(context)
-                  .push('/detail/${product[i].productDetailId}');
+              isShowProduct = !isShowProduct;
             },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: GlassmorphicContainerSecondaryStyle(
-                height: WidgetProductsCardConfigData.rightThumbPadViewHeight,
-                width: WidgetProductsCardConfigData.rightThumbViewWidth,
-                isPrimary: false,
-                isGrey: false,
-                child: Text(
-                  product[i].productName,
-                  style: TextStyle(
-                      overflow: TextOverflow.ellipsis,
-                      color: Colors.grey.shade500),
-                ),
-              ),
-            ),
-          ),
-        //   GestureDetector(
-        //     onTap: () {
-        //       setState(() {
-        //         keyTest = i;
-        //       });
-        //     },
-        //     child: Container(
-        //       child: Text(key[i].productName),
-        //     ),
-        //   ),
-      ],
-    );
+            child: const Icon(Icons.more_vert),
+          );
   }
 }

@@ -7,6 +7,7 @@ import '../../../features/product/presentation/controller/product_controller.dar
 
 import '../../app_const_data/app_const_data.dart';
 import 'app_config_layout.dart';
+import 'model.dart';
 
 abstract class AbstractUtilityProvider {
   static AutoDisposeStateNotifierProvider<WidgetRestaurantConfig,
@@ -86,7 +87,8 @@ final _widgetRestaurantConfigProvider = StateNotifierProvider.autoDispose<
       final previousCategory = categories[index - 1];
       final previousWidgetParaProductsCardMode =
           widgetRestaurantConfigMode[previousCategory];
-      final startPixcel = previousWidgetParaProductsCardMode!.endPixcel;
+      final startPixcel =
+          previousWidgetParaProductsCardMode!.endPixcel + (index * 1.0);
       final previousHalfPixcel = previousWidgetParaProductsCardMode.hlafPixcel;
       final productsCardHeight =
           WidgetProductsCardConfigData.productsCardHeight(
@@ -244,38 +246,6 @@ class WidgetRestaurantConfig
   // }
 }
 
-class WidgetRestaurantConfigMode {
-  final int index;
-  final String name;
-  final double startPixcel;
-  final double hlafPixcel;
-  final int productsLength;
-  final int numberOfRow;
-  final double endPixcel;
-  final double bottomDistance;
-  final double productsCardHeight;
-  final double previousHalfPixcel;
-  final List<Product> productsForCategory;
-  final int productsPerRow1;
-  final double heightOfAProuctCard;
-  final double heightOfARestaurant;
-  WidgetRestaurantConfigMode(
-      {required this.heightOfARestaurant,
-      required this.heightOfAProuctCard,
-      required this.productsPerRow1,
-      required this.productsForCategory,
-      required this.previousHalfPixcel,
-      required this.productsCardHeight,
-      required this.bottomDistance,
-      required this.endPixcel,
-      required this.numberOfRow,
-      required this.productsLength,
-      required this.index,
-      required this.name,
-      required this.startPixcel,
-      required this.hlafPixcel});
-}
-
 //-----------------
 
 final productsOfAllRestaurantConfigProvider = StateNotifierProvider.autoDispose<
@@ -297,9 +267,9 @@ final productsOfAllRestaurantConfigProvider = StateNotifierProvider.autoDispose<
     // final List<Product> categoryProducts =
     //     widgetRestaurantConfigMode!.productsForCategory;
 
-    final productPerRow =
-        allRestaurantsConfigProvider[allCategories[categoryIndex]]!
-            .productsPerRow1;
+    // final productPerRow =
+    //     allRestaurantsConfigProvider[allCategories[categoryIndex]]!
+    //         .productsPerRow1;
 
     if (categoryIndex != 0 &&
         allRestaurantsConfigProvider[allCategories[categoryIndex]] != null) {
@@ -375,9 +345,9 @@ final productsOfAllRestaurantConfigProvider = StateNotifierProvider.autoDispose<
       final int numberOfRow =
           allRestaurantsConfigProvider[allCategories[0]]!.numberOfRow;
 
-      final productLength =
-          allRestaurantsConfigProvider[allCategories[categoryIndex]]!
-              .productsLength;
+      // final productLength =
+      //     allRestaurantsConfigProvider[allCategories[categoryIndex]]!
+      //         .productsLength;
       final List<ProductInformation> productInformation = [];
       const int startCount = 0;
       // const int endCount = 2;
@@ -442,57 +412,7 @@ class ProductsOfAllRestaurantConfig
 //------------------------
 
 //------------------------
-class ProductsConfigEachRestaurantMode {
-  final Map<int, ProductsOfEachRowConfig> productInformationMap;
-  final int numberOfRow;
-  final double restaurantPreviousHalfPixcel;
-  final double restaurantStartPixcel;
-  final double restaurantEndPixcel;
-  final double restaurantHalfPixcel;
-  final String restaurantName;
-  final List<Product> allProductInRestaurant;
-  ProductsConfigEachRestaurantMode({
-    required this.allProductInRestaurant,
-    required this.numberOfRow,
-    required this.restaurantPreviousHalfPixcel,
-    required this.restaurantHalfPixcel,
-    required this.restaurantEndPixcel,
-    required this.restaurantName,
-    required this.productInformationMap,
-    required this.restaurantStartPixcel,
-  });
-}
 
-class ProductsOfEachRowConfig {
-  final List<ProductInformation> productInformation;
-  final double productStartPixcel;
-  final double productEndPixcel;
-  final int rowProductIndex;
-  final String category;
-  final List<Product> productList;
-  ProductsOfEachRowConfig(
-      {required this.category,
-      required this.productList,
-      required this.productInformation,
-      required this.productStartPixcel,
-      required this.productEndPixcel,
-      required this.rowProductIndex});
-}
-
-class ProductInformation {
-  final String productName;
-  final String productDetailId;
-  final int indexInRow;
-  final String startCount;
-  final String endCount;
-  ProductInformation({
-    required this.startCount,
-    required this.endCount,
-    required this.productName,
-    required this.productDetailId,
-    required this.indexInRow,
-  });
-}
 //------------
 // class RestaurantList extends StateNotifier<List<String>> {
 //   RestaurantList() : super([]);

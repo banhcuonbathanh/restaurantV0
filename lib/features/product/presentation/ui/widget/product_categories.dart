@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restauranttdd0/features/product/presentation/controller/product_controller.dart';
 
 import '../../../../../common/app_const_data/app_const_data.dart';
+import '../../../../../common/provider/utility_provider/model.dart';
 import '../../../../../common/provider/utility_provider/utilityProvider.dart';
 
 import '../../../../../common/widget/glassmorphic_container/glassmorphic.dart';
