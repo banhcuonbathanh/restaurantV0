@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restauranttdd0/features/product/presentation/controller/product_controller.dart';
+import 'package:restauranttdd0/features/product/presentation/ui/widget/product_categories.dart';
 
 import '../../../../../common/app_const_data/app_const_data.dart';
 import '../../../../../common/widget/glassmorphic_container/glassmorphic.dart';
 
 class RestaurantLeftThumbView extends ConsumerStatefulWidget {
-  const RestaurantLeftThumbView({super.key});
+  final ScrollController appScroller;
+  const RestaurantLeftThumbView({required this.appScroller, super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -15,32 +17,49 @@ class RestaurantLeftThumbView extends ConsumerStatefulWidget {
 
 class _ProductsDetailListViewState
     extends ConsumerState<RestaurantLeftThumbView> {
-  int keyTest = 0;
   @override
   Widget build(BuildContext context) {
     final category = ref.watch(
         productControllerProvider.select((value) => value.categoryOnScreen));
-
+    final isShownRestaurant = ref.watch(productControllerProvider
+        .select((value) => value.isShowRestaurantOnLeftThumbView));
     // final testData = ProductDetailsRowConfigMode();
 
-    return Column(
-      children: [
-        if (category != null)
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: GlassmorphicContainerSecondaryStyle(
-              height: WidgetProductsCardConfigData.rightThumbPadViewHeight,
-              width: WidgetProductsCardConfigData.rightThumbViewWidth,
-              isPrimary: true,
-              isGrey: false,
-              child: Text(
-                category.categoryOnScreen,
-                style: TextStyle(
-                    overflow: TextOverflow.ellipsis, color: Colors.black),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: (isShownRestaurant)
+          ? GestureDetector(
+              onTap: () {
+                ref
+                    .watch(productControllerProvider.notifier)
+                    .isShownRestaurantCategoryOnLeftThumbView();
+              },
+              child: GlassmorphicContainerSecondaryStyle(
+                height: WidgetProductsCardConfigData.rightThumbPadViewHeight,
+                width: WidgetProductsCardConfigData.rightThumbViewWidth,
+                isPrimary: true,
+                isGrey: false,
+                child: Text(
+                  category == null ? '' : category.categoryOnScreen,
+                  style: const TextStyle(
+                      overflow: TextOverflow.ellipsis, color: Colors.black),
+                ),
+              ),
+            )
+          : GestureDetector(
+              onTap: () {
+                // ref
+                //     .watch(productControllerProvider.notifier)
+                //     .isShownRestaurantCategoryOnLeftThumbView();
+              },
+              child: SizedBox(
+                height: WidgetProductsCardConfigData.rightThumbPadViewHeight,
+                width: WidgetProductsCardConfigData.rightThumbViewWidth + 200,
+                child: ProductCategories(
+                  appScroller: widget.appScroller,
+                ),
               ),
             ),
-          ),
-      ],
     );
   }
 }

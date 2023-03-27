@@ -101,7 +101,9 @@ class _ProductScreenState extends ConsumerState<ProductScreen> {
           Positioned(
             bottom: 0,
             left: 0,
-            child: RestaurantLeftThumbView(),
+            child: RestaurantLeftThumbView(
+              appScroller: scrollController,
+            ),
           )
         ],
       ),
@@ -126,7 +128,6 @@ class ProductBody extends StatelessWidget {
       children: [
         Flexible(
             child: ProductCategories(
-          state: state,
           appScroller: scrollController,
         )),
         Flexible(

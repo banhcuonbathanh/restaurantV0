@@ -17,12 +17,12 @@ class ProductRightThumbView extends ConsumerStatefulWidget {
 
 class _ProductsDetailListViewState
     extends ConsumerState<ProductRightThumbView> {
-  bool isShowProduct = true;
   @override
   Widget build(BuildContext context) {
     final product = ref.watch(
         productControllerProvider.select((value) => value.productInformation));
-
+    final isShowProduct = ref.watch(productControllerProvider
+        .select((value) => value.isShowProductOnRightThumbView));
     // final testData = ProductDetailsRowConfigMode();
 
     return isShowProduct
@@ -31,9 +31,9 @@ class _ProductsDetailListViewState
               for (int i = 0; i < product.length; i++)
                 GestureDetector(
                     onLongPress: () {
-                      setState(() {
-                        isShowProduct = !isShowProduct;
-                      });
+                      ref
+                          .watch(productControllerProvider.notifier)
+                          .isShownProductOnRightThumbView();
                     },
                     onTap: () {
                       GoRouter.of(context)
@@ -70,7 +70,9 @@ class _ProductsDetailListViewState
           )
         : GestureDetector(
             onTap: () {
-              isShowProduct = !isShowProduct;
+              ref
+                  .watch(productControllerProvider.notifier)
+                  .isShownProductOnRightThumbView();
             },
             child: const Icon(Icons.more_vert),
           );

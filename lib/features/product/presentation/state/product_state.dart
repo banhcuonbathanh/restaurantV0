@@ -20,6 +20,8 @@ class ProductState with _$ProductState {
     @Default(null) CategoryOnScreenModel? categoryOnScreen,
     @Default([]) List<ProductInformation> productInformation,
     String? errorMsg,
+    @Default(true) bool isShowProductOnRightThumbView,
+    @Default(true) bool isShowRestaurantOnLeftThumbView,
   }) = _ProductState;
 }
 

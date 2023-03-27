@@ -88,6 +88,16 @@ class ProductController extends StateNotifier<ProductState> {
     );
   }
 
+  void isShownProductOnRightThumbView() {
+    final oldIsShow = state.isShowProductOnRightThumbView;
+    state = state.copyWith(isShowProductOnRightThumbView: !oldIsShow);
+  }
+
+  void isShownRestaurantCategoryOnLeftThumbView() {
+    final oldIsShow = state.isShowRestaurantOnLeftThumbView;
+    state = state.copyWith(isShowRestaurantOnLeftThumbView: !oldIsShow);
+  }
+
   Future<ProductState> getProductstest({required int pageNumber}) async {
     if (state.isFetching) return state;
 

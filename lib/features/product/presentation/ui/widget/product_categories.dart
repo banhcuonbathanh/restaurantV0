@@ -11,10 +11,8 @@ import '../../../../../common/widget/glassmorphic_container/glassmorphic.dart';
 import '../../state/product_state.dart';
 
 class ProductCategories extends ConsumerStatefulWidget {
-  final ProductState state;
   final ScrollController appScroller;
-  const ProductCategories(
-      {required this.state, required this.appScroller, super.key});
+  const ProductCategories({required this.appScroller, super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -26,7 +24,8 @@ class _ProductCategoriesState extends ConsumerState<ProductCategories> {
   Widget build(BuildContext context) {
     final productcontroller = ref.watch(productControllerProvider);
     final ScrollController categoryScrollController1 = ScrollController();
-    final categoriesData = widget.state.categories;
+    final categoriesData = productcontroller.categories;
+    // final categoriesData = widget.state.categories;
     final categoryOnScreen = ref.watch(
         productControllerProvider.select((value) => value.categoryOnScreen));
     final fetchingState = ref
@@ -176,9 +175,9 @@ class _ProductCategoriesState extends ConsumerState<ProductCategories> {
                 }
                 //---------------------horizontal move
                 if (categoryOnScreen?.categoryOnScreen == category) {
-                  final double scrollOffset = index * 80;
-                  if (index == 3) {
-                    scrollOffset + 80;
+                  final double scrollOffset = index * 80 - 155;
+                  if (index > 3) {
+                    scrollOffset - 80;
                   }
                   Future(() {}).then((value) {
                     categoryScrollController1.animateTo(scrollOffset,
@@ -196,97 +195,10 @@ class _ProductCategoriesState extends ConsumerState<ProductCategories> {
                     width: WidgetProductsCardConfigData.widthOfProductCategory,
                     isPrimary: categoryOnScreen?.categoryOnScreen == category,
                     isGrey: categoryOnScreen?.categoryOnScreen != category,
-                    child: GestureDetector(
-                      onDoubleTap: () {
-                        print('productcontroller');
-                        print(productcontroller);
-                        print('productcontroller.products.length');
-                        print(productcontroller.products.length);
-                        productcontroller.products.forEach((element) {
-                          print('product name');
-                          print(element.name);
-                          print('product category');
-                          print(element.category);
-                        });
-                      },
-                      onTap: () {
-                        final allProductInRestaurant =
-                            productsConfigEachRestaurant
-                                ?.allProductInRestaurant;
-
-                        print('this is category ${category}, ');
-                        allProductInRestaurant?.forEach((element) {
-                          print(element.name);
-                        });
-
-                        print(
-                            'number of row ${productsConfigEachRestaurant?.numberOfRow}');
-                        if (productsConfigEachRestaurant?.numberOfRow != null) {
-                          for (int i = 0;
-                              i < productsConfigEachRestaurant!.numberOfRow;
-                              i++) {
-                            // final widgetAProductDetailConfigCategory =
-                            //     widgetAProductDetailConfigCategory
-                            //         .productInformationMap[i];
-
-                            final productsConfigEachR =
-                                productsConfigEachRestaurant;
-                            final listproductInformation =
-                                productsConfigEachRestaurant
-                                    .productInformationMap[i]
-                                    ?.productInformation;
-
-                            final key = productsConfigEachR
-                                .productInformationMap.keys
-                                .toList();
-                            print('key ${key.length}');
-                            for (int indexOfEachRow = 0;
-                                indexOfEachRow < key.length;
-                                indexOfEachRow++) {
-                              final productsOfEachRowConfig =
-                                  productsConfigEachR.productInformationMap[i];
-                              final productList =
-                                  productsOfEachRowConfig?.productList;
-                              final productListState =
-                                  productsOfEachRowConfig?.productInformation;
-                              print('products form widgetRestaurant');
-                              productList?.forEach((elemt) {
-                                print(elemt.name);
-                              });
-                              print('products intend to put on state');
-                              productListState?.forEach((elemt) {
-                                print(elemt.productName);
-                              });
-                              print(
-                                  'row index ${indexOfEachRow}, StartPixcel ${productsOfEachRowConfig?.productStartPixcel},  EndPixcel ${productsOfEachRowConfig?.productEndPixcel}, category ${productsOfEachRowConfig?.category}');
-                            }
-                            print(
-                                'this is product trong index ${productsConfigEachR.productInformationMap} number of produts ${listproductInformation?.length} ');
-                            // print(
-                            //     'this is product trong index ${i} number of produts ${listproductInformation?.length} ');
-                            // if (listproductInformation != null) {
-                            //   for (ProductInformation product
-                            //       in listproductInformation) {
-                            //     print('productName ${product.productName}');
-
-                            //     print(
-                            //         'indexInRow product ${product.indexInRow}');
-                            //   }
-                            //   print(
-                            //       'startCount ${listproductInformation[0].startCount}');
-                            //   print(
-                            //       'endCount ${listproductInformation[0].endCount}');
-                            //   print(
-                            //       ' product length ${listproductInformation.length}');
-                            // }
-                          }
-                        }
-                      },
-                      child: Text(category,
-                          style: const TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                          )),
-                    ),
+                    child: Text(category,
+                        style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                        )),
                   ),
                 );
               }),

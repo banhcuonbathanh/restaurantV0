@@ -29,6 +29,9 @@ mixin _$ProductState {
   List<ProductInformation> get productInformation =>
       throw _privateConstructorUsedError;
   String? get errorMsg => throw _privateConstructorUsedError;
+  bool get isShowProductOnRightThumbView => throw _privateConstructorUsedError;
+  bool get isShowRestaurantOnLeftThumbView =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ProductStateCopyWith<ProductState> get copyWith =>
@@ -52,7 +55,9 @@ abstract class $ProductStateCopyWith<$Res> {
       List<String> brands,
       CategoryOnScreenModel? categoryOnScreen,
       List<ProductInformation> productInformation,
-      String? errorMsg});
+      String? errorMsg,
+      bool isShowProductOnRightThumbView,
+      bool isShowRestaurantOnLeftThumbView});
 }
 
 /// @nodoc
@@ -79,6 +84,8 @@ class _$ProductStateCopyWithImpl<$Res, $Val extends ProductState>
     Object? categoryOnScreen = freezed,
     Object? productInformation = null,
     Object? errorMsg = freezed,
+    Object? isShowProductOnRightThumbView = null,
+    Object? isShowRestaurantOnLeftThumbView = null,
   }) {
     return _then(_value.copyWith(
       isLoading: null == isLoading
@@ -125,6 +132,14 @@ class _$ProductStateCopyWithImpl<$Res, $Val extends ProductState>
           ? _value.errorMsg
           : errorMsg // ignore: cast_nullable_to_non_nullable
               as String?,
+      isShowProductOnRightThumbView: null == isShowProductOnRightThumbView
+          ? _value.isShowProductOnRightThumbView
+          : isShowProductOnRightThumbView // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isShowRestaurantOnLeftThumbView: null == isShowRestaurantOnLeftThumbView
+          ? _value.isShowRestaurantOnLeftThumbView
+          : isShowRestaurantOnLeftThumbView // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -148,7 +163,9 @@ abstract class _$$_ProductStateCopyWith<$Res>
       List<String> brands,
       CategoryOnScreenModel? categoryOnScreen,
       List<ProductInformation> productInformation,
-      String? errorMsg});
+      String? errorMsg,
+      bool isShowProductOnRightThumbView,
+      bool isShowRestaurantOnLeftThumbView});
 }
 
 /// @nodoc
@@ -173,6 +190,8 @@ class __$$_ProductStateCopyWithImpl<$Res>
     Object? categoryOnScreen = freezed,
     Object? productInformation = null,
     Object? errorMsg = freezed,
+    Object? isShowProductOnRightThumbView = null,
+    Object? isShowRestaurantOnLeftThumbView = null,
   }) {
     return _then(_$_ProductState(
       isLoading: null == isLoading
@@ -219,6 +238,14 @@ class __$$_ProductStateCopyWithImpl<$Res>
           ? _value.errorMsg
           : errorMsg // ignore: cast_nullable_to_non_nullable
               as String?,
+      isShowProductOnRightThumbView: null == isShowProductOnRightThumbView
+          ? _value.isShowProductOnRightThumbView
+          : isShowProductOnRightThumbView // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isShowRestaurantOnLeftThumbView: null == isShowRestaurantOnLeftThumbView
+          ? _value.isShowRestaurantOnLeftThumbView
+          : isShowRestaurantOnLeftThumbView // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -237,7 +264,9 @@ class _$_ProductState implements _ProductState {
       final List<String> brands = const [],
       this.categoryOnScreen = null,
       final List<ProductInformation> productInformation = const [],
-      this.errorMsg})
+      this.errorMsg,
+      this.isShowProductOnRightThumbView = true,
+      this.isShowRestaurantOnLeftThumbView = true})
       : _products = products,
         _categories = categories,
         _brands = brands,
@@ -300,10 +329,16 @@ class _$_ProductState implements _ProductState {
 
   @override
   final String? errorMsg;
+  @override
+  @JsonKey()
+  final bool isShowProductOnRightThumbView;
+  @override
+  @JsonKey()
+  final bool isShowRestaurantOnLeftThumbView;
 
   @override
   String toString() {
-    return 'ProductState(isLoading: $isLoading, isFetching: $isFetching, currentPage: $currentPage, totalPage: $totalPage, total: $total, products: $products, categories: $categories, brands: $brands, categoryOnScreen: $categoryOnScreen, productInformation: $productInformation, errorMsg: $errorMsg)';
+    return 'ProductState(isLoading: $isLoading, isFetching: $isFetching, currentPage: $currentPage, totalPage: $totalPage, total: $total, products: $products, categories: $categories, brands: $brands, categoryOnScreen: $categoryOnScreen, productInformation: $productInformation, errorMsg: $errorMsg, isShowProductOnRightThumbView: $isShowProductOnRightThumbView, isShowRestaurantOnLeftThumbView: $isShowRestaurantOnLeftThumbView)';
   }
 
   @override
@@ -329,7 +364,15 @@ class _$_ProductState implements _ProductState {
             const DeepCollectionEquality()
                 .equals(other._productInformation, _productInformation) &&
             (identical(other.errorMsg, errorMsg) ||
-                other.errorMsg == errorMsg));
+                other.errorMsg == errorMsg) &&
+            (identical(other.isShowProductOnRightThumbView,
+                    isShowProductOnRightThumbView) ||
+                other.isShowProductOnRightThumbView ==
+                    isShowProductOnRightThumbView) &&
+            (identical(other.isShowRestaurantOnLeftThumbView,
+                    isShowRestaurantOnLeftThumbView) ||
+                other.isShowRestaurantOnLeftThumbView ==
+                    isShowRestaurantOnLeftThumbView));
   }
 
   @override
@@ -345,7 +388,9 @@ class _$_ProductState implements _ProductState {
       const DeepCollectionEquality().hash(_brands),
       categoryOnScreen,
       const DeepCollectionEquality().hash(_productInformation),
-      errorMsg);
+      errorMsg,
+      isShowProductOnRightThumbView,
+      isShowRestaurantOnLeftThumbView);
 
   @JsonKey(ignore: true)
   @override
@@ -366,7 +411,9 @@ abstract class _ProductState implements ProductState {
       final List<String> brands,
       final CategoryOnScreenModel? categoryOnScreen,
       final List<ProductInformation> productInformation,
-      final String? errorMsg}) = _$_ProductState;
+      final String? errorMsg,
+      final bool isShowProductOnRightThumbView,
+      final bool isShowRestaurantOnLeftThumbView}) = _$_ProductState;
 
   @override
   bool get isLoading;
@@ -390,6 +437,10 @@ abstract class _ProductState implements ProductState {
   List<ProductInformation> get productInformation;
   @override
   String? get errorMsg;
+  @override
+  bool get isShowProductOnRightThumbView;
+  @override
+  bool get isShowRestaurantOnLeftThumbView;
   @override
   @JsonKey(ignore: true)
   _$$_ProductStateCopyWith<_$_ProductState> get copyWith =>
