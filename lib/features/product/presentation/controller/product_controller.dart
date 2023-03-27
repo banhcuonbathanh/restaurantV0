@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../common/provider/utility_provider/model.dart';
-import '../../../../common/provider/utility_provider/utilityProvider.dart';
+
 import '../../application/iproduct_service.dart';
 import '../../application/product_service.dart';
 import '../state/product_state.dart';

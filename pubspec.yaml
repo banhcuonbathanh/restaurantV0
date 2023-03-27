@@ -55,6 +55,7 @@ dependencies:
   upgrader: ^6.0.1
   flutter_local_notifications: ^8.2.0
   faker: ^2.1.0
+  flutter_animate: ^4.1.1+1
 
 dev_dependencies:
   flutter_test:

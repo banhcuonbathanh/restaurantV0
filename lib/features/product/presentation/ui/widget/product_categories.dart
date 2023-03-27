@@ -25,7 +25,7 @@ class _ProductCategoriesState extends ConsumerState<ProductCategories> {
   @override
   Widget build(BuildContext context) {
     final productcontroller = ref.watch(productControllerProvider);
-    final ScrollController categoryScrollController = ScrollController();
+    final ScrollController categoryScrollController1 = ScrollController();
     final categoriesData = widget.state.categories;
     final categoryOnScreen = ref.watch(
         productControllerProvider.select((value) => value.categoryOnScreen));
@@ -34,10 +34,11 @@ class _ProductCategoriesState extends ConsumerState<ProductCategories> {
     final widgetPara =
         ref.watch(AbstractUtilityProvider.widgetRestaurantConfigProvider);
 //---------
-    categoryScrollController.addListener(() {
-      final maxScrollExtent = categoryScrollController.position.maxScrollExtent;
+    categoryScrollController1.addListener(() {
+      final maxScrollExtent =
+          categoryScrollController1.position.maxScrollExtent;
 
-      if (categoryScrollController.position.pixels >= maxScrollExtent) {
+      if (categoryScrollController1.position.pixels >= maxScrollExtent) {
         final currentPage = ref.read(productControllerProvider).currentPage;
         final totalPage = ref.read(productControllerProvider).totalPage;
 
@@ -58,7 +59,7 @@ class _ProductCategoriesState extends ConsumerState<ProductCategories> {
           flex: 12,
           child: ListView.builder(
               physics: const ClampingScrollPhysics(),
-              controller: categoryScrollController,
+              controller: categoryScrollController1,
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemCount: categoriesData.length,
@@ -176,9 +177,11 @@ class _ProductCategoriesState extends ConsumerState<ProductCategories> {
                 //---------------------horizontal move
                 if (categoryOnScreen?.categoryOnScreen == category) {
                   final double scrollOffset = index * 80;
-
+                  if (index == 3) {
+                    scrollOffset + 80;
+                  }
                   Future(() {}).then((value) {
-                    categoryScrollController.animateTo(scrollOffset,
+                    categoryScrollController1.animateTo(scrollOffset,
                         duration: const Duration(milliseconds: 1),
                         curve: Curves.linear);
                   });
