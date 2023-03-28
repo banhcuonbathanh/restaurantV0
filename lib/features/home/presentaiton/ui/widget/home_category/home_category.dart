@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restauranttdd0/common/extensions/string_hardcoded.dart';
@@ -8,13 +7,22 @@ import 'package:restauranttdd0/common/widget/async_value_widget.dart';
 import 'package:restauranttdd0/common/widget/cache_image.dart';
 import 'package:restauranttdd0/features/home/presentaiton/controller/home_controller.dart';
 
-import '../../../../data/api/home_api_service.dart';
+import '../../../../domain/models/category_model/category_model.dart';
 
-class HomeCategoryWidget extends ConsumerWidget {
+class HomeCategoryWidget extends ConsumerStatefulWidget {
   const HomeCategoryWidget({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _HomeCategoryWidgetState();
+}
+
+class _HomeCategoryWidgetState extends ConsumerState<HomeCategoryWidget> {
+  bool expanded = false;
+  @override
+  Widget build(
+    BuildContext context,
+  ) {
     final categorise =
         ref.watch(homeControllerProvider.select((value) => value.categories));
 
@@ -22,15 +30,35 @@ class HomeCategoryWidget extends ConsumerWidget {
       child: AsyncValueWidget(
           value: categorise,
           data: (data) {
+            int itemCount = 5;
+            List<CategoryModel> listCategoties8item = [];
+            if (data.isNotEmpty && data.length > 5) {
+              itemCount = expanded ? data.length : 5;
+              listCategoties8item = data.sublist(0, itemCount);
+            } else {
+              listCategoties8item = data;
+            }
             return Padding(
               padding: const EdgeInsets.all(kSmall),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Catefory'.hardcoded,
-                    style: context.textTheme.titleSmall,
+                  Row(
+                    children: [
+                      Text(
+                        'Catefory'.hardcoded,
+                        style: context.textTheme.titleSmall,
+                      ),
+                      const Spacer(),
+                      IconButton(
+                          onPressed: () {
+                            setState(() {
+                              expanded = !expanded;
+                            });
+                          },
+                          icon: const Icon(Icons.more_vert)),
+                    ],
                   ),
                   const SizedBox(
                     height: kSmall,
@@ -38,7 +66,7 @@ class HomeCategoryWidget extends ConsumerWidget {
                   GridView.builder(
                       primary: false,
                       shrinkWrap: true,
-                      itemCount: data.length,
+                      itemCount: listCategoties8item.length,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 5),
@@ -53,18 +81,18 @@ class HomeCategoryWidget extends ConsumerWidget {
                               ),
                             ),
                             Container(
+                              width: 60,
+                              decoration: BoxDecoration(
+                                  color: Colors.black87,
+                                  borderRadius: BorderRadius.circular(kSmall)),
                               child: Text(
                                 category.name,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.white,
                                 ),
                                 textAlign: TextAlign.center,
                                 overflow: TextOverflow.ellipsis,
                               ),
-                              width: 60,
-                              decoration: BoxDecoration(
-                                  color: Colors.black87,
-                                  borderRadius: BorderRadius.circular(kSmall)),
                             ),
                           ],
                         );

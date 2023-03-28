@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restauranttdd0/common/extensions/string_hardcoded.dart';
@@ -6,7 +5,6 @@ import 'package:restauranttdd0/common/extensions/text_theme.dart';
 import 'package:restauranttdd0/common/styles/dimens.dart';
 import 'package:restauranttdd0/common/widget/async_value_widget.dart';
 import 'package:restauranttdd0/common/widget/cache_image.dart';
-import 'package:restauranttdd0/features/home/presentaiton/controller/home_controller.dart';
 
 import '../../../../domain/models/category_model/search_category_model.dart';
 import '../../../controller/search_controller.dart';

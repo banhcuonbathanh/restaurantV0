@@ -176,9 +176,9 @@ class _ProductCategoriesState extends ConsumerState<ProductCategories> {
                 //---------------------horizontal move
                 if (categoryOnScreen?.categoryOnScreen == category) {
                   final double scrollOffset = index * 80 - 155;
-                  if (index > 3) {
-                    scrollOffset - 80;
-                  }
+                  // if (index > 3) {
+                  //   scrollOffset - 80;
+                  // }
                   Future(() {}).then((value) {
                     categoryScrollController1.animateTo(scrollOffset,
                         duration: const Duration(milliseconds: 1),

@@ -17,6 +17,7 @@ import '../../features/product/presentation/ui/product_detail_screen.dart';
 import '../../features/product/presentation/ui/product_screen.dart';
 import '../../features/search/presentaiton/ui/search_screen.dart';
 import '../../features/setting/presentation/ui/setting_screen.dart';
+import '../../features/splash/splash_screen.dart';
 import 'notifier/go_router_notifier.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
@@ -31,7 +32,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     debugLogDiagnostics: false,
     navigatorKey: _rootNavigatorKey,
-    initialLocation: '/',
+    initialLocation: '/splash',
     refreshListenable: notifier,
     redirect: (context, state) {
       final isLoggedIn = notifier.isLoggedIn;
@@ -43,11 +44,13 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         if (isLoggedIn) {
           if (isGoingToLogin || isGoingToSignUp) {
             isDuplicate = true;
+            // return '/splash';
             return '/';
           }
         } else {
           if (!isGoingToLogin && !isGoingToSignUp && !isGoingToNoInternet) {
             isDuplicate = true;
+            // return '/splash';
             return '/login?from=${state.subloc}';
           }
         }
@@ -60,20 +63,20 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       return null;
     },
     routes: <RouteBase>[
-      // GoRoute(
-      //   path: 'search',
-      //   name: searchRoute,
-      //   pageBuilder: (context, state) {
-      //     // final id = int.parse(state.params['id'].toString());
-      //     return NoTransitionPage(
-      //       key: state.pageKey,
-      //       child: SearchScreen(
-      //         // id: id,
-      //         key: state.pageKey,
-      //       ),
-      //     );
-      //   },
-      // ),
+      GoRoute(
+        path: '/splash',
+        name: splashRoute,
+        pageBuilder: (context, state) {
+          // final id = int.parse(state.params['id'].toString());
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: SplashScreen(
+              // id: id,
+              key: state.pageKey,
+            ),
+          );
+        },
+      ),
       GoRoute(
         parentNavigatorKey: _rootNavigatorKey,
         path: '/search',

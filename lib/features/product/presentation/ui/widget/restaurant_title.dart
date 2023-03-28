@@ -5,6 +5,7 @@ import 'package:restauranttdd0/features/product/presentation/controller/product_
 
 import '../../../../../common/app_const_data/app_const_data.dart';
 import '../../../../../common/widget/glassmorphic_container/glassmorphic.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class RestuarantTitle extends ConsumerStatefulWidget {
   final String restaurantName;
@@ -60,7 +61,16 @@ class _RestuarantTitleState extends ConsumerState<RestuarantTitle> {
           ? true
           : false,
       isGrey: false,
-      child: Text(widget.restaurantName, style: const TextStyle()),
-    );
+      child: Text(
+        widget.restaurantName,
+        style: const TextStyle(),
+      ),
+    )
+        .animate(
+            target: categoryOnScreen?.categoryOnScreen == widget.restaurantName
+                ? 1
+                : 0)
+        .slideX(end: 0, begin: -1)
+        .fadeIn(begin: 0.5);
   }
 }

@@ -7,3 +7,4 @@ const String signUpRoute = 'signUp';
 const String productDetailRoute = 'productDetail';
 const String productRoute = 'product';
 const String searchRoute = 'search';
+const String splashRoute = 'splash';

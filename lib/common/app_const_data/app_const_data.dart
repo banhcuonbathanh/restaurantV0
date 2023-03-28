@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:restauranttdd0/common/app_const_data/size_config.dart';
 
 import '../styles/dimens.dart';
 
@@ -15,6 +16,21 @@ class WidgetProductsCardConfigData {
   static const deviceHeightHalf = deviceheight / 2;
   static const crossAxisSpacingInGridCard = kSmall;
   static const theDistanceBewteentoHalf = 340.0;
+
+  //----------------------------- home Screen
+
+  // width: getProportionateScreenWidth(100),
+  static final homeBrandConfigHeight = getProportionateScreenHeight(90);
+  static final homeBrandScrollingConfigCoverHeight =
+      getProportionateScreenHeight(10);
+  static final homeBrandScrollingConfigCoverWidth =
+      getProportionateScreenWidth(97);
+  static final homeBrandScrollingConfigDotWidth =
+      getProportionateScreenWidth(20);
+  static final homeBrandScrollingConfigDotHeight =
+      getProportionateScreenHeight(10);
+  static final homeBrandScrollingConfigDotMove = getProportionateScreenHeight(
+      homeBrandScrollingConfigCoverWidth - homeBrandScrollingConfigDotWidth);
 //-------------- restaurantTitle
   static const heightOfRestaurantTitle = 30.0;
   static const widthOfRestaurantTitle = 150.0;
