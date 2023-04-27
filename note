@@ -44,7 +44,7 @@ riverpodPart	Create a part statement for Riverpod
 //    flutter pub run build_runner watch --delete-conflicting-outputs
 //    flutter pub run build_runner build --delete-conflicting-outputs
 
-//     flutter pub run build_runner build
+//     flutter pub run build_runner build -d
 
 //-------------------- freeze command access tokens
 1c15a46d7a4728cb6f784a795f544348298ad88e622e2f5b9f26d05432a97ef4
@@ -57,3 +57,5 @@ riverpodPart	Create a part statement for Riverpod
             "id": '664',
             "name": 'Ms. Bhaswar Gandhi',
             "status": 'inactive'
+
+            flutter run --profile
